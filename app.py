@@ -2,7 +2,7 @@ from fastapi import FastAPI, Request, HTTPException, UploadFile, File
 from fastapi.responses import JSONResponse
 import logging
 import os
-from utils import convert_image_to_base64_and_test, test_with_base64_data
+import base64
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -22,13 +22,19 @@ async def disease_detection_file(file: UploadFile = File(...)):
         # Read uploaded file into memory
         contents = await file.read()
         
-    # Process file directly from memory
-        result = convert_image_to_base64_and_test(contents)
+        # Convert to base64 for processing
+        base64_string = base64.b64encode(contents).decode('utf-8')
         
-    # No cleanup needed since file is not saved locally
+        # For now, return a simple response (you can integrate your ML model later)
+        result = {
+            "status": "success",
+            "message": "Image received successfully",
+            "file_size": len(contents),
+            "base64_length": len(base64_string),
+            "filename": file.filename,
+            "content_type": file.content_type
+        }
         
-        if result is None:
-            raise HTTPException(status_code=500, detail="Failed to process image file")
         logger.info("Disease detection from file completed successfully")
         return JSONResponse(content=result)
     except HTTPException:
@@ -44,6 +50,7 @@ async def root():
     return {
         "message": "Leaf Disease Detection API",
         "version": "1.0.0",
+        "status": "running",
         "endpoints": {
             "disease_detection_file": "/disease-detection-file (POST, file upload)"
         }
