@@ -1,15 +1,16 @@
 {
     "version": 2,
+    "name": "leaf-disease-detection",
     "builds": [
         {
-            "src": "./app.py",
+            "src": "./main.py",
             "use": "@vercel/python"
         }
     ],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "/app.py"
+            "dest": "/main.py"
         }
     ]
 }
