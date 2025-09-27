@@ -5,8 +5,18 @@ import streamlit as st
 import requests
 from dotenv import load_dotenv
 
+# Configure Streamlit for cloud deployment
+os.environ['STREAMLIT_SERVER_HEADLESS'] = 'true'
+os.environ['STREAMLIT_SERVER_ENABLE_CORS'] = 'false'
+os.environ['STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION'] = 'false'
+
 # Set Streamlit theme to light and wide mode
-st.set_page_config(page_title="Leaf Disease Detection", page_icon="🌿", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(
+    page_title="Leaf Disease Detection", 
+    page_icon="🌿", 
+    layout="wide", 
+    initial_sidebar_state="collapsed"
+)
 
 
 # Enhanced modern CSS
