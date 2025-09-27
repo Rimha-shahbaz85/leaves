@@ -12,8 +12,11 @@ def main():
     os.environ['STREAMLIT_SERVER_ENABLE_CORS'] = 'false'
     os.environ['STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION'] = 'false'
     
-    # Get port from Railway
-    port = os.environ.get('PORT', '8501')
+    # Get port from Railway (Railway uses PORT environment variable)
+    port = os.environ.get('PORT', '8080')
+    
+    print(f"Railway PORT environment variable: {os.environ.get('PORT', 'NOT SET')}")
+    print(f"Using port: {port}")
     
     # Start Streamlit with proper configuration
     cmd = [
@@ -23,10 +26,11 @@ def main():
         '--server.headless', 'true',
         '--server.enableCORS', 'false',
         '--server.enableXsrfProtection', 'false',
-        '--browser.gatherUsageStats', 'false'
+        '--browser.gatherUsageStats', 'false',
+        '--server.runOnSave', 'false'
     ]
     
-    print(f"Starting Streamlit on port {port}...")
+    print(f"Starting Streamlit with command: {' '.join(cmd)}")
     subprocess.run(cmd)
 
 if __name__ == '__main__':
