@@ -1,12 +1,15 @@
-[theme]
-base = "light"
-primaryColor = "#1976d2"
-backgroundColor = "#ffffff"
-secondaryBackgroundColor = "#f0f2f6"
-textColor = "#262730"
-
 [server]
-runOnSave = true
+headless = true
+port = 8501
+enableCORS = false
+enableXsrfProtection = false
+
+[theme]
+primaryColor = "#556B2F"
+backgroundColor = "#EFF5D2"
+secondaryBackgroundColor = "#C6D870"
+textColor = "#445625"
+font = "sans serif"
 
 [browser]
 gatherUsageStats = false
