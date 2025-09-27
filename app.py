@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Request, HTTPException, UploadFile, File
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, HTMLResponse
 import logging
 import os
 import base64
@@ -44,9 +44,44 @@ async def disease_detection_file(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
 
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 async def root():
-    """Root endpoint providing API information"""
+    """Root endpoint serving the HTML interface"""
+    try:
+        with open("index.html", "r", encoding="utf-8") as f:
+            html_content = f.read()
+        return HTMLResponse(content=html_content)
+    except FileNotFoundError:
+        return HTMLResponse(content="""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Leaf Disease Detection API</title>
+            <style>
+                body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+                .container { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+                h1 { color: #333; }
+                .endpoint { background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 5px; border-left: 4px solid #007bff; }
+            </style>
+        </head>
+        <body>
+            <div class="container">
+                <h1>🌿 Leaf Disease Detection API</h1>
+                <p>Welcome to the Leaf Disease Detection API. Use the following endpoint to analyze leaf images:</p>
+                <div class="endpoint">
+                    <strong>POST /disease-detection-file</strong><br>
+                    Upload an image file for disease analysis
+                </div>
+                <p><strong>Version:</strong> 1.0.0</p>
+                <p><strong>Status:</strong> Running</p>
+            </div>
+        </body>
+        </html>
+        """)
+
+@app.get("/api")
+async def api_info():
+    """API information endpoint"""
     return {
         "message": "Leaf Disease Detection API",
         "version": "1.0.0",
