@@ -3,22 +3,26 @@
     "name": "leaf-disease-detection",
     "builds": [
         {
-            "src": "app.py",
+            "src": "api/index.py",
             "use": "@vercel/python"
         }
     ],
     "routes": [
         {
             "src": "/disease-detection-file",
-            "dest": "/app.py"
+            "dest": "/api/index.py"
+        },
+        {
+            "src": "/api",
+            "dest": "/api/index.py"
         },
         {
             "src": "/",
-            "dest": "/app.py"
+            "dest": "/api/index.py"
         },
         {
             "src": "/(.*)",
-            "dest": "/app.py"
+            "dest": "/api/index.py"
         }
     ]
 }
